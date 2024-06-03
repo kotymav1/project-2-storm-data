@@ -3,11 +3,12 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Load the cleaned data
-data = pd.read_csv('cleaned_data.csv')
-
-# Convert DataFrame to JSON
-data_json = data.to_dict(orient='records')
+# Load the cleaned data with error handling
+try:
+    data = pd.read_csv('Resources/clean_data.csv')
+    data_json = data.to_dict(orient='records')
+except Exception as e:
+    data_json = {"error": str(e)}
 
 @app.route('/', methods=['GET'])
 def home():
