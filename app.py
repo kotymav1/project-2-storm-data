@@ -3,7 +3,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Load the cleaned data with error handling
+""" # Load the cleaned data with error handling
 try:
     data = pd.read_csv('Resources/clean_data.csv')
     data_json = data.to_dict(orient='records')
@@ -20,3 +20,4 @@ def get_data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+ """
