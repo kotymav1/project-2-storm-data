@@ -30,11 +30,11 @@ def serialize_data(data):
         serialized.append(serialized_row)
     return serialized
 
-@app.route('https://project-3-storm-data-6145e29f3e2b.herokuapp.com/data', methods=['GET'])
+@app.route('/storm_data', methods=['GET'])
 def get_data():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM storm_data')  # Replace with your table name
+    cursor.execute('SELECT * FROM storm_data')
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
