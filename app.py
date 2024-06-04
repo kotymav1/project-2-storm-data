@@ -15,32 +15,3 @@ def get_db_connection():
         password="LL]Ov>54?3(\\"
     )
     return conn
-
-# Define API endpoints 
-
-def serialize_data(data):
-    serialized = []
-    for row in data:
-        serialized_row = []
-        for item in row:
-            if isinstance(item, (date, datetime, time)):
-                serialized_row.append(item.isoformat())
-            else:
-                serialized_row.append(item)
-        serialized.append(serialized_row)
-    return serialized
-
-@app.route('/storm_data', methods=['GET'])
-def get_data():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM storm_data')
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    serialized_rows = serialize_data(rows)
-    return jsonify(serialized_rows)
-
-if __name__ == '__main__':
-    app.run(debug=True)
