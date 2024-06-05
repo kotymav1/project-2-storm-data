@@ -7,13 +7,13 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app) # Enables CORS so that index.html does not return a JavaScript error
+CORS(app)  # Enables CORS so that index.html does not return a JavaScript error
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storm_data_db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-class StormData(db.Model): # Creating the database
+class StormData(db.Model):  # Creating the database
     __tablename__ = 'Storm_Data'
     id = db.Column(db.Integer, primary_key=True)
     YEAR = db.Column(db.Integer)
@@ -30,7 +30,7 @@ class StormData(db.Model): # Creating the database
     BEGIN_LON = db.Column(db.Float)
     EVENT_NARRATIVE = db.Column(db.String)
 
-    def to_geojson(self): # Conerting to geoJSON
+    def to_geojson(self):
         return {
             "type": "Feature",
             "geometry": {
@@ -52,35 +52,28 @@ class StormData(db.Model): # Creating the database
             }
         }
 
-@app.route('/data', methods=['GET']) # Creating Flask app
+@app.route('/data')
 def get_data():
     data = StormData.query.all()
-    geojson = {
-        "type": "FeatureCollection",
-        "features": [item.to_geojson() for item in data]
-    }
-    return jsonify(geojson)
+    features = [storm.to_geojson() for storm in data]
+    return jsonify({"type": "FeatureCollection", "features": features})
 
-def clear_db(): # Clears the databse to prevent duplicate entries
+def clear_db():
     db.session.query(StormData).delete()
     db.session.commit()
 
-def populate_db_from_csv(): # Populate the database from clean_data.csv
+def populate_db_from_csv():
     csv_file_path = 'Resources/clean_data.csv'
     if os.path.exists(csv_file_path):
         data = pd.read_csv(csv_file_path)
         for index, row in data.iterrows():
-            # Convert string to datetime
             begin_date_time = datetime.strptime(row['BEGIN_DATE_TIME'], '%Y-%m-%d %H:%M:%S')
             time_of_day = datetime.strptime(row['TIME_OF_DAY'], '%H:%M:%S').time()
-            
-            # Check if the record already exists
             existing_record = StormData.query.filter_by(
                 BEGIN_DATE_TIME=begin_date_time,
                 EVENT_TYPE=row['EVENT_TYPE'],
                 BEGIN_LOCATION=row['BEGIN_LOCATION']
             ).first()
-            
             if not existing_record:
                 storm_data = StormData(
                     YEAR=row['YEAR'],
