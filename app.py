@@ -1,42 +1,110 @@
 from flask import Flask, jsonify
-from datetime import date, datetime, time
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+import pandas as pd
+import json
 import os
+from datetime import datetime
 
-# Define your database URL
-DATABASE_URL = "postgresql+psycopg2://postgres:LL]Ov>54?3(\\@localhost/storm_data_db"
-
-# Connecting to PostgreSQL database
 app = Flask(__name__)
+CORS(app) # Enables CORS so that index.html does not return a JavaScript error
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storm_data_db.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create an engine and a session
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
+db = SQLAlchemy(app)
 
-def serialize_data(data):
-    serialized = []
-    for row in data:
-        serialized_row = []
-        for item in row:
-            if isinstance(item, (date, datetime, time)):
-                serialized_row.append(item.isoformat())
-            else:
-                serialized_row.append(item)
-        serialized.append(serialized_row)
-    return serialized
+class StormData(db.Model): # Creating the database
+    __tablename__ = 'Storm_Data'
+    id = db.Column(db.Integer, primary_key=True)
+    YEAR = db.Column(db.Integer)
+    MONTH_NAME = db.Column(db.String(9))
+    BEGIN_DAY = db.Column(db.Integer)
+    BEGIN_DATE_TIME = db.Column(db.TIMESTAMP, unique=True)
+    TIME_OF_DAY = db.Column(db.Time)
+    DAMAGE_PROPERTY = db.Column(db.Integer)
+    EVENT_TYPE = db.Column(db.String)
+    STATE = db.Column(db.String)
+    TOR_F_SCALE = db.Column(db.String(3))
+    BEGIN_LOCATION = db.Column(db.String)
+    BEGIN_LAT = db.Column(db.Float)
+    BEGIN_LON = db.Column(db.Float)
+    EVENT_NARRATIVE = db.Column(db.String)
 
-@app.route('/data', methods=['GET'])
+    def to_geojson(self): # Conerting to geoJSON
+        return {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [self.BEGIN_LON, self.BEGIN_LAT]
+            },
+            "properties": {
+                "YEAR": self.YEAR,
+                "MONTH_NAME": self.MONTH_NAME,
+                "BEGIN_DAY": self.BEGIN_DAY,
+                "BEGIN_DATE_TIME": self.BEGIN_DATE_TIME.isoformat() if self.BEGIN_DATE_TIME else None,
+                "TIME_OF_DAY": str(self.TIME_OF_DAY) if self.TIME_OF_DAY else None,
+                "DAMAGE_PROPERTY": self.DAMAGE_PROPERTY,
+                "EVENT_TYPE": self.EVENT_TYPE,
+                "STATE": self.STATE,
+                "TOR_F_SCALE": self.TOR_F_SCALE,
+                "BEGIN_LOCATION": self.BEGIN_LOCATION,
+                "EVENT_NARRATIVE": self.EVENT_NARRATIVE
+            }
+        }
+
+@app.route('/data', methods=['GET']) # Creating Flask app
 def get_data():
-    session = Session()
-    result = session.execute(text('SELECT * FROM storm_data')).fetchall()
-    session.close()
+    data = StormData.query.all()
+    geojson = {
+        "type": "FeatureCollection",
+        "features": [item.to_geojson() for item in data]
+    }
+    return jsonify(geojson)
 
-    serialized_rows = serialize_data(result)
-    return jsonify(serialized_rows)
+def clear_db(): # Clears the databse to prevent duplicate entries
+    db.session.query(StormData).delete()
+    db.session.commit()
+
+def populate_db_from_csv(): # Populate the database from clean_data.csv
+    csv_file_path = 'Resources/clean_data.csv'
+    if os.path.exists(csv_file_path):
+        data = pd.read_csv(csv_file_path)
+        for index, row in data.iterrows():
+            # Convert string to datetime
+            begin_date_time = datetime.strptime(row['BEGIN_DATE_TIME'], '%Y-%m-%d %H:%M:%S')
+            time_of_day = datetime.strptime(row['TIME_OF_DAY'], '%H:%M:%S').time()
+            
+            # Check if the record already exists
+            existing_record = StormData.query.filter_by(
+                BEGIN_DATE_TIME=begin_date_time,
+                EVENT_TYPE=row['EVENT_TYPE'],
+                BEGIN_LOCATION=row['BEGIN_LOCATION']
+            ).first()
+            
+            if not existing_record:
+                storm_data = StormData(
+                    YEAR=row['YEAR'],
+                    MONTH_NAME=row['MONTH_NAME'],
+                    BEGIN_DAY=row['BEGIN_DAY'],
+                    BEGIN_DATE_TIME=begin_date_time,
+                    TIME_OF_DAY=time_of_day,
+                    DAMAGE_PROPERTY=row['DAMAGE_PROPERTY'],
+                    EVENT_TYPE=row['EVENT_TYPE'],
+                    STATE=row['STATE'],
+                    TOR_F_SCALE=row['TOR_F_SCALE'],
+                    BEGIN_LOCATION=row['BEGIN_LOCATION'],
+                    BEGIN_LAT=row['BEGIN_LAT'],
+                    BEGIN_LON=row['BEGIN_LON'],
+                    EVENT_NARRATIVE=row['EVENT_NARRATIVE']
+                )
+                db.session.add(storm_data)
+        db.session.commit()
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+        clear_db()
+        populate_db_from_csv()
     app.run(debug=True)
 
-# run app.py in terminal
-# navigate to http://127.0.0.1:5000/data
+# Open http://127.0.0.1:5000/data in your browser to test the API and confirm the JSON is loading.
