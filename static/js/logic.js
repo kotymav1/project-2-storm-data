@@ -12,6 +12,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Load the data from the local API
 let apiData = "http://127.0.0.1:5000/data";
 
+  // Function to determine marker size based on property damage
+  function markerSize(damageProperty) {
+    return damageProperty > 0 ? Math.log(damageProperty) * .75 : 0.75; // Adjusting the size for better visualization
+  }
+
+
 // Function to determine marker color based on event type
 function markerColor(eventType) {
   switch (eventType) {
@@ -52,7 +58,7 @@ d3.json(apiData).then(function(data) {
       if (lat !== undefined && lon !== undefined && eventType) {
         // Add circle marker to the map
         L.circleMarker([lat, lon], {
-          radius: 8,
+          radius: markerSize(damageProperty),
           fillColor: markerColor(eventType),
           color: "#000",
           weight: 1,
@@ -74,7 +80,7 @@ d3.json(apiData).then(function(data) {
     let legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
       let div = L.DomUtil.create("div", "legend");
-      let eventTypes = ['Thunderstorm Wind', 'Tornado', 'Flash Flood', 'Flood', 'Hail', 'Lightning'];
+      let eventTypes = ['Thunderstorm', 'Tornado', 'Flash Flood', 'Flood', 'Hail', 'Lightning'];
       let colors = ["#FF0000", "#FFA500", "#0000FF", "#0000FF", "#00FF00", "#ADD8E6"];
 
       // Create legend header

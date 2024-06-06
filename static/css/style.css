@@ -3,10 +3,32 @@ body {
   margin: 0;
 }
 
-#map,
 body,
 html {
   height: 100%;
+}
+
+#map {
+  height: 50%;
+}
+
+#bar-charts {
+  height: 100%;
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
+}
+
+#bar-1, #bar-2 {
+  float: left; /* Float the divs to create side-by-side columns */
+  height: 100%; /* Fill the height of the parent container */
+  width: 50%;
+}
+
+#bar-1 {
+}
+
+#bar-2 {
 }
 
 .legend {
