@@ -13,7 +13,7 @@ d3.json(url).then(function(data){
         type: 'bar',
         transforms: [{
             type: 'aggregate',
-            groups: yValues,
+            groups: xValues,
             aggregations: [
                 {target: 'y', func: 'sum', enabled: true},
             ]
