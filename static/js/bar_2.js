@@ -6,26 +6,21 @@ d3.json(url).then(function(data){
     //console.log(xValues)
     //console.log(yValues)
     let barTrace = [{
-        x: xValues,
-        y: yValues,
-        type: 'bar',
+        values: yValues,
+        labels: xValues,
+        type: 'pie',
         transforms: [{
             type: 'aggregate',
             groups: xValues,
             aggregations: [
-                {target: 'y', func: 'sum', enabled: true},
+                {target: 'values', func: 'sum', enabled: true},
             ]
         }]
     }];
     let layout = {
         title: 'Damage by State',
-        barmode: 'group',
-        xaxis: {
-            title: 'STATE'
-        },
-        yaxis: {
-            title: 'Damage'
-        }
+        height: 800,
+        width: 1000
     };
     Plotly.newPlot("bar-2", barTrace, layout);
 });
