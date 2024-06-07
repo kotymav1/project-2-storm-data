@@ -12,11 +12,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Load the data from the local API
 let apiData = "http://127.0.0.1:5000/data";
 
-  // Function to determine marker size based on property damage
-  function markerSize(damageProperty) {
-    return damageProperty > 0 ? Math.log(damageProperty) * .75 : 0.75; // Adjusting the size for better visualization
-  }
-
+// Function to determine marker size based on property damage
+function markerSize(damageProperty) {
+  return damageProperty > 0 ? Math.log(damageProperty) * .75 : 0.75; // Adjusting the size for better visualization
+}
 
 // Function to determine marker color based on event type
 function markerColor(eventType) {
@@ -31,18 +30,18 @@ function markerColor(eventType) {
   }
 }
 
-// Get the data with d3
-d3.json(apiData).then(function(data) {
-  // Log the data to inspect its structure
-  console.log("Raw data received: ", data);
+// Create layer groups for each event type
+let thunderstormLayer = L.layerGroup().addTo(myMap);
+let tornadoLayer = L.layerGroup().addTo(myMap); 
+let floodLayer = L.layerGroup().addTo(myMap); 
+let hailLayer = L.layerGroup().addTo(myMap); 
+let lightningLayer = L.layerGroup().addTo(myMap); 
 
-  // Access the features array
+d3.json(apiData).then(function(data) {
   let events = data.features;
 
-  // Check if events is an array
   if (Array.isArray(events)) {
     if (events.length === 0) {
-      console.error("No data found or data is empty");
       return;
     }
 
@@ -56,8 +55,8 @@ d3.json(apiData).then(function(data) {
       let timeOfDay = properties.TIME_OF_DAY;
 
       if (lat !== undefined && lon !== undefined && eventType) {
-        // Add circle marker to the map
-        L.circleMarker([lat, lon], {
+        // Create a circle marker
+        let marker = L.circleMarker([lat, lon], {
           radius: markerSize(damageProperty),
           fillColor: markerColor(eventType),
           color: "#000",
@@ -70,20 +69,36 @@ d3.json(apiData).then(function(data) {
           <strong>State:</strong> ${state}<br>
           <strong>Damage Property:</strong> $${damageProperty.toLocaleString()}<br>
           <strong>Time of Day:</strong> ${timeOfDay}
-        `).addTo(myMap);
-      } else {
-        console.warn("Invalid event data: ", event);
+        `);
+
+        // Add the marker to the layer group
+        switch (eventType) {
+          case 'Thunderstorm Wind': marker.addTo(thunderstormLayer); break;
+          case 'Tornado': marker.addTo(tornadoLayer); break;
+          case 'Flash Flood':
+          case 'Flood': marker.addTo(floodLayer); break;
+          case 'Hail': marker.addTo(hailLayer); break;
+          case 'Lightning': marker.addTo(lightningLayer); break;
+        }
       }
     });
+
+    // Add layer control to the map
+    L.control.layers(null, {
+      "Thunderstorm Wind": thunderstormLayer,
+      "Tornado": tornadoLayer,
+      "Flood": floodLayer,
+      "Hail": hailLayer,
+      "Lightning": lightningLayer
+    }).addTo(myMap);
 
     // Set up the legend
     let legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
       let div = L.DomUtil.create("div", "legend");
-      let eventTypes = ['Thunderstorm', 'Tornado', 'Flash Flood', 'Flood', 'Hail', 'Lightning'];
-      let colors = ["#FF0000", "#FFA500", "#0000FF", "#0000FF", "#00FF00", "#ADD8E6"];
+      let eventTypes = ['Thunderstorm', 'Tornado', 'Flood', 'Hail', 'Lightning'];
+      let colors = ["#FF0000", "#FFA500", "#0000FF", "#00FF00", "#ADD8E6"];
 
-      // Create legend header
       let legendInfo = "<h1>Event Types</h1>";
       div.innerHTML = legendInfo;
 
@@ -99,8 +114,6 @@ d3.json(apiData).then(function(data) {
 
     // Adding the legend to the map
     legend.addTo(myMap);
-  } else {
-    console.error("Data received is not an array");
   }
 }).catch(function(error) {
   console.error("Error fetching data: ", error);
