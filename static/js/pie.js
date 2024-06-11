@@ -9,6 +9,7 @@ d3.json(url).then(function(data){
         values: yValues,
         labels: xValues,
         textinfo: 'none',
+        hole: .4,
         type: 'pie',
         transforms: [{
             type: 'aggregate',
