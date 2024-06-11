@@ -53,6 +53,9 @@ d3.json(apiData).then(function(data) {
       let state = properties.STATE;
       let damageProperty = properties.DAMAGE_PROPERTY;
       let timeOfDay = properties.TIME_OF_DAY;
+      let month = properties.MONTH_NAME;
+      let day = properties.BEGIN_DAY;
+      let torFScale = properties.TOR_F_SCALE;
 
       if (lat !== undefined && lon !== undefined && eventType) {
         // Create a circle marker
@@ -65,10 +68,13 @@ d3.json(apiData).then(function(data) {
           fillOpacity: 0.8
         }).bindPopup(`
           <strong>Event Type:</strong> ${eventType}<br>
+          <strong>Tornado F Scale:</strong> ${torFScale}<br>
           <strong>Location:</strong> (${lat}, ${lon})<br>
           <strong>State:</strong> ${state}<br>
           <strong>Damage Property:</strong> $${damageProperty.toLocaleString()}<br>
-          <strong>Time of Day:</strong> ${timeOfDay}
+          <strong>Month:</strong> ${month}<br>
+          <strong>Day:</strong> ${day}<br>
+          <strong>Time:</strong> ${timeOfDay}
         `);
 
         // Add the marker to the layer group

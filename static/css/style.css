@@ -1,35 +1,51 @@
-body {
-  padding: 0;
-  margin: 0;
-}
-
-body,
-html {
+/* Ensure the body and html take up full height */
+body, html {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 #map {
-  height: 50%;
-}
-
-#bar-charts {
   height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#sidebar {
+  height: 100%;
+  width: 30%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.8);
   border-style: solid;
-  border-width: 5px;
+  border-width: 1px;
   border-color: black;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Bar chart styles within the sidebar */
 #bar-1, #bar-2 {
-  float: left; /* Float the divs to create side-by-side columns */
-  height: 100%; /* Fill the height of the parent container */
-  width: 50%;
+  height: 33%;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
 }
 
-#bar-1 {
+#bar-1 iframe, #bar-2 iframe {
+  height: 100%;
+  width: 100%;
 }
 
-#bar-2 {
-}
 
 .legend {
   background-color: white;

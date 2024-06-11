@@ -8,6 +8,7 @@ d3.json(url).then(function(data){
     let barTrace = [{
         values: yValues,
         labels: xValues,
+        textinfo: 'none',
         type: 'pie',
         transforms: [{
             type: 'aggregate',
@@ -19,8 +20,11 @@ d3.json(url).then(function(data){
     }];
     let layout = {
         title: 'Damage by State',
-        height: 800,
-        width: 1000
+        autosize: true,
+        margin: { t: 30, r: 30, b: 30, l: 30 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        showlegend: false
     };
-    Plotly.newPlot("bar-2", barTrace, layout);
+    Plotly.newPlot("bar-2", barTrace, layout, {responsive: true});
 });
