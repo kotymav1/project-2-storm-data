@@ -10,7 +10,11 @@ app = Flask(__name__)
 CORS(app)  # Enables CORS so that index.html does not return a JavaScript error
 
 # Use environment variable for Heroku database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///storm_data_db.sqlite')
+database_url = os.getenv('DATABASE_URL', 'sqlite:///storm_data_db.sqlite')
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
