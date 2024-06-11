@@ -25,27 +25,28 @@ body, html {
   background-color: rgba(255, 255, 255, 0.8);
   border-style: solid;
   border-width: 1px;
-  border-color: black;
+  border-color: rgba(0, 0, 0, 0.181);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  padding: 20px;
 }
 
-/* Bar chart styles within the sidebar */
-#bar-1, #bar-2 {
+#bar-chart, #pie-chart {
   height: 33%;
   width: 100%;
   overflow: hidden;
   padding: 10px;
 }
 
-#bar-1 iframe, #bar-2 iframe {
+#bar-chart iframe, #pie-chart iframe {
   height: 100%;
   width: 100%;
 }
-
 
 .legend {
   background-color: white;

@@ -1,37 +1,30 @@
 url = "http://127.0.0.1:5000/data"
-
 d3.json(url).then(function(data){
     let properties = data.features.map(feature => feature.properties);
-    let xValues = properties.map(data => data.MONTH);
+    let xValues = properties.map(data => data.STATE);
     let yValues = properties.map(data => data.DAMAGE_PROPERTY);
     //console.log(xValues)
     //console.log(yValues)
-    
     let barTrace = [{
-        x: xValues,
-        y: yValues,
-        type: 'bar',
+        values: yValues,
+        labels: xValues,
+        textinfo: 'none',
+        type: 'pie',
         transforms: [{
             type: 'aggregate',
             groups: xValues,
             aggregations: [
-                {target: 'y', func: 'sum', enabled: true},
+                {target: 'values', func: 'sum', enabled: true},
             ]
         }]
     }];
     let layout = {
-        title: 'Damage by Event Type',
-        barmode: 'group',
-        xaxis: {
-            title: 'Event Type'
-        },
-        yaxis: {
-            title: 'Damage'
-        },
+        title: 'Damage by State',
         autosize: true,
         margin: { t: 30, r: 30, b: 30, l: 30 },
         paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)'
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        showlegend: false
     };
-    Plotly.newPlot("bar-3", barTrace, layout, {responsive: true});
+    Plotly.newPlot("pie-chart", barTrace, layout, {responsive: true});
 });

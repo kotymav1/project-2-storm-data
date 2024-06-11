@@ -20,7 +20,7 @@ function markerSize(damageProperty) {
 // Function to determine marker color based on event type
 function markerColor(eventType) {
   switch (eventType) {
-    case 'Thunderstorm Wind': return "#FF0000";
+    case 'Thunderstorm': return "#FF0000";
     case 'Tornado': return "#FFA500";
     case 'Flash Flood': return "#0000FF";
     case 'Flood': return "#0000FF";
@@ -79,7 +79,7 @@ d3.json(apiData).then(function(data) {
 
         // Add the marker to the layer group
         switch (eventType) {
-          case 'Thunderstorm Wind': marker.addTo(thunderstormLayer); break;
+          case 'Thunderstorm': marker.addTo(thunderstormLayer); break;
           case 'Tornado': marker.addTo(tornadoLayer); break;
           case 'Flash Flood':
           case 'Flood': marker.addTo(floodLayer); break;
@@ -91,7 +91,7 @@ d3.json(apiData).then(function(data) {
 
     // Add layer control to the map
     L.control.layers(null, {
-      "Thunderstorm Wind": thunderstormLayer,
+      "Thunderstorm": thunderstormLayer,
       "Tornado": tornadoLayer,
       "Flood": floodLayer,
       "Hail": hailLayer,

@@ -24,12 +24,12 @@ d3.json(url).then(function(data){
             title: 'Event Type'
         },
         yaxis: {
-            title: 'Damage'
+            title: 'Damage ($)'
         },
         autosize: true,
         margin: { t: 30, r: 30, b: 30, l: 30 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
     };
-    Plotly.newPlot("bar-1", barTrace, layout, {responsive: true});
+    Plotly.newPlot("bar-chart", barTrace, layout, {responsive: true});
 });

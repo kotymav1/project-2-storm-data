@@ -19,30 +19,29 @@
 <body>
 
   <!-- The div that holds our map -->
-  <div id="map">
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""></script>
-    <!-- D3 JavaScript -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- Our JavaScript -->
-    <script type="text/javascript" src="static/js/logic.js"></script>
-  </div>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  <!-- D3 JavaScript -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Our JavaScript -->
+  <script type="text/javascript" src="static/js/map.js"></script>
 
   <!-- Sidebar containing the charts -->
   <div id="sidebar">
     <!-- Plotly JS -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-    <div id="bar-1">
-      <!-- Bar 1 JavaScript -->
-      <script type="text/javascript" src="static/js/bar_1.js"></script>
+    <div id="bar-chart">
+      <!-- Bar Chart JavaScript -->
+      <script type="text/javascript" src="static/js/bar.js"></script>
     </div>
-
-    <div id="bar-2">
-      <!-- Bar 2 JavaScript -->
-      <script type="text/javascript" src="static/js/bar_2.js"></script>
+    <div id="pie-chart">
+      <!-- Pie Char JavaScript -->
+      <script type="text/javascript" src="static/js/pie.js"></script>
     </div>
   </div>
 
