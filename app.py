@@ -3,7 +3,6 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import pandas as pd
-import json
 from datetime import datetime
 
 app = Flask(__name__)
