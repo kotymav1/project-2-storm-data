@@ -1,7 +1,8 @@
 # project-3-storm-data
-Proposal
-https://docs.google.com/document/d/1_Zlcbl28L-0dDCiK31wB3f2-jCWFeoyEUfSzGCX6jZU/edit?usp=sharing
-
+Proposal<br/>
+https://docs.google.com/document/d/1_Zlcbl28L-0dDCiK31wB3f2-jCWFeoyEUfSzGCX6jZU/edit?usp=sharing <br/>
+Presentation<br/>
+https://docs.google.com/presentation/d/13Jh3_HNbYNKF5pLHfqMqs7FiBzYZsISfN_2KnpDJZN0/edit?usp=sharing
 
 ## Steps to Replicate
 ### 1. Run Jupyter Notebook
