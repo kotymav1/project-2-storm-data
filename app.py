@@ -1,19 +1,14 @@
-import os
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import pandas as pd
+import json
+import os
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)  # Enables CORS so that index.html does not return a JavaScript error
-
-# Use environment variable for Heroku database
-database_url = os.getenv('DATABASE_URL', 'sqlite:///storm_data_db.sqlite')
-if database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///storm_data_db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -104,3 +99,5 @@ if __name__ == '__main__':
         clear_db()
         populate_db_from_csv()
     app.run(debug=True)
+
+# Open http://127.0.0.1:5000/data in your browser to test the API and confirm the JSON is loading.
