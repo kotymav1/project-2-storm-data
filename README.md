@@ -20,5 +20,8 @@ Note: be sure to run **pip install flask-cors** in your terminal to enable CORS 
 Open index.html in your browser, this will show the data visualization.
 
 ## Resources Used
+### 1. Data Source
+https://catalog.data.gov/dataset/ncdc-storm-events-database2
+### 2. Other Sources
 https://stackoverflow.com/questions/25594893/how-to-enable-cors-in-flask
 https://sqlite.org/lang_delete.html#:~:text=The%20DELETE%20command%20removes%20records,expression%20is%20true%20are%20deleted.
