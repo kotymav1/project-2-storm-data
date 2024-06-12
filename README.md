@@ -1,7 +1,10 @@
 # project-3-storm-data
-Proposal<br/>
+## Overview
+This project aims to tell the story of the NCDC Storm Events data for the whole 2023 year with a dashboard of interactive visualizations.<br/>
+The goal is for the user to be able to interact with the dashboard in order to uncover their own insights within the data.
+#### Proposal<br/>
 https://docs.google.com/document/d/1_Zlcbl28L-0dDCiK31wB3f2-jCWFeoyEUfSzGCX6jZU/edit?usp=sharing <br/>
-Presentation<br/>
+#### Presentation<br/>
 https://docs.google.com/presentation/d/13Jh3_HNbYNKF5pLHfqMqs7FiBzYZsISfN_2KnpDJZN0/edit?usp=sharing
 
 ## Steps to Replicate
