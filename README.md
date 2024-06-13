@@ -18,15 +18,15 @@ Open & run app.py, this will create the database and the local API on your machi
 Open index.html in your browser, this will show the data visualization.
 
 ## Requirements/Libraries Used
-flask-cors
-flask_sqlalchemy
-pandas
-json
-os
-datetime
-plotly
-pathlib
-leaflet
+- flask-cors
+- flask_sqlalchemy
+- pandas
+- json
+- os
+- datetime
+- plotly
+- pathlib
+- leaflet
 
 ## Resources Used
 ### 1. Data Source
