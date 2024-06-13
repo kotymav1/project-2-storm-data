@@ -14,10 +14,19 @@ Open & run all blocks in storm-data-cleaning.ipynb, this will take the raw data 
 ### 2. Create the database & API
 Open & run app.py, this will create the database and the local API on your machine that will be used for the data visualization. Open http://127.0.0.1:5000/data in your browser to test the API and confirm the JSON is loading.
 
-Note: be sure to run **pip install flask-cors** in your terminal to enable CORS for the Flask app, otherwise the API will not work.
-
 ### 3. Load the visualization
 Open index.html in your browser, this will show the data visualization.
+
+## Requirements/Libraries Used
+flask-cors
+flask_sqlalchemy
+pandas
+json
+os
+datetime
+plotly
+pathlib
+leaflet
 
 ## Resources Used
 ### 1. Data Source
