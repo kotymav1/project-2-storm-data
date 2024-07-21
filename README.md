@@ -8,7 +8,7 @@ the three main questions we aimed to answer are: <br/>
 
 1. Which storm events occur most often?
 2. Which states have the most damage?
-3. What storm type causes th most damage?
+3. What storm type causes the most damage?
 
 ## Results
 1. Which storm events occur most often?
