@@ -13,7 +13,7 @@ the three main questions we aimed to answer are: <br/>
 ## Results
 1. Which storm events occur most often?
   * Thunderstorm Wind: 3,897 <br/>
-  ![Screenshot 2024-07-21 130422](https://github.com/user-attachments/assets/27f71fb4-29d8-4d1f-9c11-3161100844ec=250X250) <br/>
+  ![Screenshot 2024-07-21 130422](https://github.com/user-attachments/assets/27f71fb4-29d8-4d1f-9c11-3161100844ec) <br/>
   * Flood: 1,072 <br/>
   ![Screenshot 2024-07-21 130330](https://github.com/user-attachments/assets/d27ced99-e991-42e1-9a10-ed398ea1d8a5) <br/>
   * Hail: 669 <br/>
