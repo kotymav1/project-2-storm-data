@@ -26,13 +26,13 @@ the three main questions we aimed to answer are: <br/>
 2. Which states have the most damage?
   * Texas (blue): $1,864,507,500
   * California (orange): $1,013,948,000
-  * Illinois (green): $565,437,000
+  * Illinois (green): $565,437,000 <br/>
   ![StatesDamageAmount](https://github.com/user-attachments/assets/8c3c0713-bbe3-41d7-af58-e78ad7840800) <br/>
 
 3. What storm type causes th most damage?
   * Hail: $1,979,904,000
   * Flood: $1,963,195,000
-  * Tornado: $1,371,071,000
+  * Tornado: $1,371,071,000 <br/>
   ![Storm_Type_Damage](https://github.com/user-attachments/assets/eb07abaf-e6ae-4a27-82c6-dba1825f60c5) <br/>
 
 #### Proposal<br/>
